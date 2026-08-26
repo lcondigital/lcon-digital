@@ -19,36 +19,37 @@ LCON DIGITAL presta serviços especializados de consultoria SAP e transformaçã
 - HTML5 + CSS3 (estilos inline no `<head>`, sem framework)
 - JavaScript vanilla (menu mobile, animações de scroll com `IntersectionObserver`, envio do formulário de contacto)
 - Sem build step — site estático servido diretamente
-
-## Infraestrutura
-
-| Componente | Serviço |
-|---|---|
-| Hosting | [Cloudflare Pages](https://pages.cloudflare.com/) |
-| Domínio | `lcon-digital.com`, gerido no Cloudflare (DNS) e adquirido via Google Workspace |
-| Deploy | Automático a partir deste repositório (push para `main` → deploy) |
-| Email profissional | Google Workspace (`geral@lcon-digital.com`), com SPF, DKIM e DMARC configurados |
-| SSL | Certificado automático via Cloudflare Pages (custom domain) |
-
-### DNS (Cloudflare)
-
-- `lcon-digital.com` → CNAME → `lcon-digital.pages.dev` (proxied)
-- `www.lcon-digital.com` → CNAME → `lcon-digital.pages.dev` (proxied)
-- Registos `MX`, `SPF`, `DKIM` e `DMARC` configurados para o Google Workspace
+- Hospedagem em CDN estático com deploy automático a partir deste repositório
 
 ## Estrutura do projeto
 
 ```
 .
 ├── index.html          # Página única do site
+├── robots.txt           # Indicações para motores de busca
+├── sitemap.xml           # Mapa do site para indexação
+├── _headers               # Cabeçalhos HTTP de segurança
+├── _redirects               # Regras de redirecionamento
 ├── assets/
+│   ├── favicon.svg
 │   └── leandro-costa.png
 └── README.md
 ```
 
+## Segurança
+
+Este projeto aplica um conjunto de boas práticas de segurança ao nível do front-end e da entrega de conteúdo:
+
+- Cabeçalhos HTTP restritivos (`_headers`): CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy e Permissions-Policy.
+- Todos os links externos usam `rel="noopener noreferrer"`.
+- O formulário de contacto inclui um campo *honeypot* invisível para reduzir spam automatizado.
+- Sem segredos, chaves de API, tokens ou dados de configuração de infraestrutura neste repositório — a gestão de domínio, DNS e email é feita fora do código-fonte, em painéis próprios com acesso restrito.
+
+Não abras *issues* públicas com detalhes de configuração de infraestrutura (DNS, hosting, email). Reporta esse tipo de assunto por um canal privado.
+
 ## Formulário de contacto
 
-O formulário na secção `#contact` está atualmente ligado a um `mailto:` construído via JavaScript (não usa `action="mailto:..."` no `<form>`, para evitar o aviso de "mixed content" dos browsers). Esta é uma solução **temporária** — o objetivo é substituir por um serviço de formulário dedicado (ex: Formspree, Web3Forms, ou uma Cloudflare Pages Function) antes de produção definitiva.
+O formulário na secção `#contact` está atualmente ligado a um `mailto:` construído via JavaScript (não usa `action="mailto:..."` no `<form>`, para evitar avisos de "mixed content" nos browsers). Esta é uma solução **temporária** — o objetivo é substituir por um serviço de formulário dedicado (ex: Formspree, Web3Forms, ou uma função serverless) antes de produção definitiva.
 
 ## Desenvolvimento local
 
@@ -60,7 +61,7 @@ npx serve .
 
 ## Deploy
 
-O deploy é automático via Cloudflare Pages a cada push para a branch `main`. Pull requests geram automaticamente um deploy preview.
+O deploy é automático a cada push para a branch `main`. Pull requests geram automaticamente um deploy preview.
 
 ## Licença
 
