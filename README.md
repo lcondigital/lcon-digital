@@ -69,3 +69,10 @@ O deploy é automático a cada push para a branch `main`. Pull requests geram au
 ## Licença
 
 © 2026 LCON DIGITAL. Todos os direitos reservados.
+
+
+## Contact form
+
+The contact form uses a Cloudflare Pages Function at `/api/contact` and Resend for transactional email. The visitor's email address is used as `Reply-To`; the message is delivered to `geral@lcon-digital.com`.
+
+Before deploying, add a Cloudflare Pages secret named `RESEND_API_KEY` containing a Resend API key. In Resend, verify the `lcon-digital.com` sending domain and publish the DNS records Resend provides. No email API key is exposed in the browser.
