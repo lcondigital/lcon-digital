@@ -16,3 +16,14 @@ footer{background:#061923;color:#849aa4;padding:30px 0}.footer{display:flex;just
 
 /* Language switcher */
 .lang-toggle{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:.72rem;font-weight:800;letter-spacing:.12em;padding:.62rem .72rem;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;transition:all .2s ease;margin-left:.35rem;white-space:nowrap}.lang-toggle:hover{border-color:rgba(77,174,131,.8);color:#4dae83}.lang-current{color:#4dae83}.lang-alt{opacity:.72}.lang-separator{opacity:.35}@media(max-width:900px){.lang-toggle{margin:.5rem 0 0;padding:.65rem .8rem}.links.open .lang-toggle{display:inline-flex}}
+
+/* Mobile alignment: all approach steps share the same left edge. */
+@media(max-width:720px){
+  .steps .step,
+  .steps .step:nth-child(n),
+  .steps .step:nth-child(even){
+    margin-left:0!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+}
