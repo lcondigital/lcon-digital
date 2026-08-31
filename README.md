@@ -1,55 +1,55 @@
 # LCON DIGITAL — Website
 
-Website institucional da **LCON DIGITAL**, desenvolvido para apresentar a empresa, a sua área de atuação e a experiência do fundador, com uma experiência simples, elegante e orientada para clientes de consultoria SAP e transformação digital.
+Website institucional da **LCON DIGITAL**, empresa especializada em consultoria SAP e transformação digital, fundada por Leandro Costa.
 
-## Apresentação
+## Objetivo
 
-O site apresenta a LCON DIGITAL como uma empresa de consultoria focada em SAP e transformação digital, com uma abordagem personalizada e orientada para os desafios concretos de cada organização.
-
-O conteúdo está estruturado para permitir uma navegação rápida entre a apresentação da empresa, serviços, áreas de experiência, informação sobre o fundador e contacto.
+O site apresenta a empresa, a experiência e áreas de especialização, a abordagem de trabalho e os canais de contacto. A experiência visual foi pensada para transmitir uma imagem profissional, tecnológica e próxima, com suporte para desktop, tablet e dispositivos móveis.
 
 ## Funcionalidades
 
-- **Design responsivo** — adaptação automática a computadores, tablets e smartphones.
-- **Navegação por secções** — acesso rápido às principais áreas do site através do menu.
-- **Versão bilingue PT / EN** — possibilidade de alternar entre português e inglês através do botão de idioma no cabeçalho.
-- **Preferência de idioma** — o idioma escolhido é mantido no navegador para futuras visitas.
-- **Conteúdo técnico SAP** — nomes de produtos, módulos e terminologia técnica são mantidos de forma consistente entre os idiomas.
-- **Apresentação do fundador** — perfil de Leandro Costa, experiência e principais áreas de especialização.
-- **Serviços e áreas de expertise** — apresentação das principais áreas de intervenção da LCON DIGITAL.
-- **Links para redes profissionais** — acesso ao LinkedIn e Instagram da empresa e do fundador, quando aplicável.
-- **Formulário de contacto** — permite aos visitantes enviar pedidos de contacto diretamente a partir do site.
-- **Feedback do formulário** — indicação clara do estado do envio, incluindo confirmação de sucesso ou informação sobre a necessidade de tentar novamente.
-- **SEO básico** — título, descrição, sitemap e robots.txt preparados para indexação pelos motores de pesquisa.
-- **Identidade visual** — utilização consistente da marca, tipografia, cores, logótipo e elementos gráficos da LCON DIGITAL.
-- **Acessibilidade e usabilidade** — estrutura semântica, campos identificados e elementos de interação preparados para uma utilização simples.
+- Design responsive para web e mobile.
+- Conteúdo disponível em Português e Inglês através do seletor de idioma.
+- Slogan mantido em inglês: **Bespoke Consulting. Tailored Digitally.**
+- Apresentação da LCON DIGITAL e dos seus serviços.
+- Secção de experiência e especialização em SAP, mantendo a terminologia técnica dos módulos.
+- Secção dedicada ao fundador, Leandro Costa.
+- Apresentação da abordagem de trabalho da LCON DIGITAL.
+- Formulário de contacto com envio automático de mensagens por email.
+- Links para LinkedIn e Instagram.
+- Página de informação sobre privacidade.
+- Identidade visual e ícones da LCON DIGITAL.
+- Estrutura preparada para alojamento através do Cloudflare Pages.
+- Área privada para consulta dos acessos e contactos recebidos, com dados de localização aproximada derivados do IP.
 
 ## Estrutura
 
-```text
-lcon-digital-main/
-├── index.html
-├── assets/
-│   ├── main.js
-│   ├── styles.css
-│   ├── leandro-costa.jpg
-│   ├── logo.png
-│   └── restantes elementos gráficos
-├── functions/
-│   └── api/
-│       └── contact.js
-├── _headers
-├── _redirects
-├── robots.txt
-└── sitemap.xml
-```
+- `index.html` — página principal.
+- `assets/` — imagens, identidade visual, estilos e JavaScript.
+- `functions/` — funcionalidades server-side do site.
+- `schema.sql` — estrutura da base de dados utilizada pelas funcionalidades privadas.
+- `privacy.html` — informação de privacidade do website.
+- `site.webmanifest` — configuração para utilização como Web App.
+- `_headers` e `_redirects` — configurações de alojamento.
 
-## Tecnologia
+## Idiomas
 
-O website utiliza uma arquitetura web leve, baseada em **HTML, CSS e JavaScript**, com os recursos de backend necessários ao formulário de contacto através da infraestrutura de publicação do site.
+O site suporta Português de Portugal e Inglês. A alteração de idioma é feita diretamente no header, sem necessidade de recarregar a página. O slogan e a terminologia técnica SAP permanecem conforme definidos pela LCON DIGITAL.
 
-A solução foi pensada para uma manutenção simples e para publicação através de plataformas de hosting estático e edge computing.
+## Configuração de funcionalidades privadas
+
+As funcionalidades de registo e consulta privada requerem configuração de uma base de dados Cloudflare D1 e credenciais de acesso no ambiente Cloudflare. O procedimento encontra-se documentado em `SETUP-PRIVATE-AREA.md`.
 
 ## Contacto
 
-Para informações sobre a LCON DIGITAL ou sobre os serviços apresentados no site, os visitantes podem utilizar o formulário de contacto disponível na página.
+As mensagens submetidas através do formulário são encaminhadas para o endereço de contacto da LCON DIGITAL. O endereço de email é apresentado no site apenas através da designação **E-mail**.
+
+## Área privada e registos de utilização
+
+A aplicação pode registar acessos e pedidos de contacto numa base de dados privada. Os registos incluem informação técnica necessária para gestão, segurança e análise de utilização, podendo incluir endereço IP e localização geográfica aproximada. Os dados são mantidos por um período máximo de 90 dias de acordo com a configuração da aplicação.
+
+A área privada destina-se exclusivamente à gestão interna da LCON DIGITAL.
+
+## Tecnologias
+
+O projeto utiliza HTML, CSS e JavaScript no frontend e Cloudflare Pages Functions no backend, com integração opcional de serviços de email e base de dados da plataforma Cloudflare.

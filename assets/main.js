@@ -79,6 +79,21 @@ const langToggle=document.getElementById('langToggle');
 if(langToggle){langToggle.addEventListener('click',()=>applyLanguage(currentLang==='pt'?'en':'pt'));}
 applyLanguage(currentLang);
 
+// Privacy-aware first-party access logging. No tracking cookies are created.
+try {
+  const trackPayload = {
+    path: window.location.pathname + window.location.hash,
+    language: currentLang,
+    referrer: document.referrer || ''
+  };
+  const body = JSON.stringify(trackPayload);
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon('/api/track', new Blob([body], { type: 'application/json' }));
+  } else {
+    fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true }).catch(() => {});
+  }
+} catch (_) {}
+
 const contactForm=document.getElementById('contactForm');
 const formStatus=document.getElementById('formStatus');
 if(contactForm){

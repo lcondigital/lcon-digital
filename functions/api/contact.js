@@ -32,6 +32,33 @@ export async function onRequestPost({ request, env }) {
     return json({ error: "Please complete the required fields." }, 400);
   }
 
+  const cf = request.cf || {};
+  const visitorIp = request.headers.get("CF-Connecting-IP") || "unknown";
+  const visitorCountry = cf.country || request.headers.get("CF-IPCountry") || null;
+  const visitorCity = cf.city || request.headers.get("CF-IPCity") || null;
+  const visitorRegion = cf.region || request.headers.get("CF-Region") || null;
+  const createdAt = new Date().toISOString();
+  let contactId = null;
+
+  if (env.DB) {
+    try {
+      const existing = await env.DB.prepare(`
+        SELECT COUNT(*) AS count FROM contacts WHERE ip = ? AND datetime(created_at) >= datetime('now','-1 hour')
+      `).bind(visitorIp).first();
+      if (Number(existing?.count || 0) >= 5) {
+        return json({ error: "Too many requests. Please try again later." }, 429);
+      }
+
+      const inserted = await env.DB.prepare(`
+        INSERT INTO contacts (created_at, name, company, email, service, message, ip, country, city, region, email_status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'received')
+      `).bind(createdAt, name, company || null, email, service || null, message, visitorIp, visitorCountry, visitorCity, visitorRegion).run();
+      contactId = inserted.meta?.last_row_id || null;
+    } catch (error) {
+      console.error("Contact logging error:", error);
+    }
+  }
+
   const text = [
     "New contact request from the LCON DIGITAL website",
     "",
@@ -76,7 +103,19 @@ export async function onRequestPost({ request, env }) {
   if (!resendResponse.ok) {
     const details = await resendResponse.text();
     console.error("Resend error:", details);
+    if (env.DB && contactId) {
+      await env.DB.prepare(`UPDATE contacts SET email_status = 'email_failed' WHERE id = ?`).bind(contactId).run();
+    }
     return json({ error: "Unable to send your message." }, 502);
+  }
+
+  if (env.DB && contactId) {
+    await env.DB.prepare(`UPDATE contacts SET email_status = 'sent' WHERE id = ?`).bind(contactId).run();
+  }
+
+  if (env.DB && Math.random() < 0.05) {
+    await env.DB.prepare(`DELETE FROM page_views WHERE datetime(created_at) < datetime('now', '-90 days')`).run();
+    await env.DB.prepare(`DELETE FROM contacts WHERE datetime(created_at) < datetime('now', '-90 days')`).run();
   }
 
   return json({ ok: true });
